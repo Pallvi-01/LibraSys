@@ -1,0 +1,85 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>🎓 Student Management</h2>
+
+        <a href="{% url 'add_student' %}" class="btn btn-primary">
+            + Add Student
+        </a>
+    </div>
+
+    <form method="GET" class="mb-3">
+
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search Student..."
+            value="{{ request.GET.search }}">
+
+    </form>
+
+    <table class="table table-bordered table-hover shadow">
+
+        <thead class="table-dark">
+
+            <tr>
+                <th>Name</th>
+                <th>Roll No.</th>
+                <th>Course</th>
+                <th>Mobile</th>
+                <th>Email</th>
+                <th width="180">Action</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% for student in students %}
+
+            <tr>
+
+                <td>{{ student.name }}</td>
+                <td>{{ student.roll_number }}</td>
+                <td>{{ student.course }}</td>
+                <td>{{ student.mobile }}</td>
+                <td>{{ student.email }}</td>
+
+                <td>
+
+                    <a href="{% url 'edit_student' student.id %}" class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+
+                    <a href="{% url 'delete_student' student.id %}"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Delete this student?');">
+                        Delete
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="6" class="text-center">
+                    No Students Found
+                </td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

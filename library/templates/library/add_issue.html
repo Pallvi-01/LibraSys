@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Issue New Book</h2>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Book</label>
+
+        <select name="book" class="form-control">
+
+            {% for book in books %}
+                <option value="{{ book.id }}">
+                    {{ book.title }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Student</label>
+
+        <select name="student" class="form-control">
+
+            {% for student in students %}
+                <option value="{{ student.id }}">
+                    {{ student.name }}
+                </option>
+            {% endfor %}
+
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Return Date</label>
+
+        <input type="date" name="return_date" class="form-control">
+    </div>
+
+    <button class="btn btn-primary">
+        Issue Book
+    </button>
+
+</form>
+
+{% endblock %}

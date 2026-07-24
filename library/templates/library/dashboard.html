@@ -1,0 +1,398 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+
+<div class="container-fluid mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="fw-bold">
+                📚 LibraSys Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Smart Library Management System
+            </p>
+        </div>
+
+        <div class="text-end">
+
+            <span class="badge bg-dark p-3 fs-6">
+
+                Welcome Admin 👋
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card bg-primary text-white shadow-lg border-0">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-book fa-3x mb-3"></i>
+
+                    <h5>Total Books</h5>
+
+                    <h1>{{ total_books }}</h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card bg-success text-white shadow-lg border-0">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-user-graduate fa-3x mb-3"></i>
+
+                    <h5>Total Students</h5>
+
+                    <h1>{{ total_students }}</h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card bg-warning text-dark shadow-lg border-0">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-book-reader fa-3x mb-3"></i>
+
+                    <h5>Issued Books</h5>
+
+                    <h1>{{ total_issued }}</h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-6">
+
+            <div class="card bg-info text-white shadow-lg border-0">
+
+                <div class="card-body text-center">
+
+                    <i class="fas fa-check-circle fa-3x mb-3"></i>
+
+                    <h5>Available</h5>
+
+                    <h1>{{ available_books }}</h1>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-lg mt-4 border-0">
+
+        <div class="card-body">
+
+            <h3 class="fw-bold">
+
+                Welcome to LibraSys 📖
+
+            </h3>
+
+            <p class="text-muted">
+
+                Manage Books, Students, Issue & Return operations from one professional dashboard.
+
+            </p>
+
+        </div>
+
+    </div>
+    
+    <div class="mt-4">
+
+    <a href="{% url 'books_pdf' %}" class="btn btn-danger me-2">
+        <i class="fas fa-file-pdf"></i> Download PDF
+    </a>
+
+    <a href="{% url 'books_excel' %}" class="btn btn-success">
+        <i class="fas fa-file-excel"></i> Download Excel
+    </a>
+
+    </div>
+
+
+    <div class="card shadow-lg mt-4 border-0">
+
+        <div class="card-header bg-dark text-white">
+
+            <h4>
+
+                📋 Recent Book Issues
+
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover table-striped">
+
+                <thead class="table-light">
+
+                    <tr>
+
+                        <th>Book</th>
+
+                        <th>Student</th>
+
+                        <th>Issue Date</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for issue in recent_issues %}
+
+                    <tr>
+
+                        <td>{{ issue.book.title }}</td>
+
+                        <td>{{ issue.student.name }}</td>
+
+                        <td>{{ issue.issue_date }}</td>
+
+                        <td>
+
+                            {% if issue.returned %}
+
+                                <span class="badge bg-success">
+
+                                    Returned
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-warning text-dark">
+
+                                    Issued
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="4" class="text-center">
+
+                            No Recent Activity
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+        <!-- Charts Row -->
+
+    <div class="row mt-4">
+
+        <!-- Bar Chart -->
+
+        <div class="col-lg-7">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h4>📊 Library Statistics</h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="libraryChart" height="120"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Pie Chart -->
+
+        <div class="col-lg-5">
+
+            <div class="card shadow-lg border-0">
+
+                <div class="card-header bg-success text-white">
+
+                    <h4>🥧 Books Availability</h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="pieChart" height="220"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ---------- Bar Chart ----------
+
+    const barCtx = document.getElementById("libraryChart");
+
+    new Chart(barCtx, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+
+                "Books",
+                "Students",
+                "Issued",
+                "Available"
+
+            ],
+
+            datasets: [{
+
+                label: "Library Data",
+
+                data: [
+
+                    {{ total_books }},
+                    {{ total_students }},
+                    {{ total_issued }},
+                    {{ available_books }}
+
+                ]
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            plugins: {
+
+                legend: {
+
+                    display: false
+
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    });
+
+    // ---------- Pie Chart ----------
+
+    const pieCtx = document.getElementById("pieChart");
+
+    new Chart(pieCtx, {
+
+        type: "pie",
+
+        data: {
+
+            labels: [
+
+                "Available",
+
+                "Issued"
+
+            ],
+
+            datasets: [{
+
+                data: [
+
+                    {{ pie_available }},
+
+                    {{ pie_issued }}
+
+                ]
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true
+
+        }
+
+    });
+
+});
+
+</script>
+
+{% endblock %}

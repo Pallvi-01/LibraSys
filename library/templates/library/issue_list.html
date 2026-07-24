@@ -1,0 +1,136 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>📚 Issue Book Management</h2>
+
+        <a href="{% url 'add_issue' %}" class="btn btn-success">
+            <i class="fas fa-plus"></i> Issue New Book
+        </a>
+    </div>
+
+    <table class="table table-bordered table-hover shadow">
+
+        <thead class="table-dark">
+            <tr>
+                <th>Book</th>
+                <th>Student</th>
+                <th>Issue Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+                <th>Fine</th>
+                <th width="170">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for issue in issues %}
+
+            <tr>
+
+                <td>{{ issue.book.title }}</td>
+
+                <td>{{ issue.student.name }}</td>
+
+                <td>{{ issue.issue_date }}</td>
+
+                <td>
+                    {{ issue.return_date }}
+
+                    {% if not issue.returned and issue.return_date < today %}
+                    <br>
+                    <span class="badge bg-danger">
+                    Overdue
+                    </span>
+                    {% endif %}
+                </td>
+
+                <!-- Status -->
+                <td>
+
+                    {% if issue.returned %}
+
+                        <span class="badge bg-success">
+                            Returned
+                        </span>
+
+                    {% elif issue.return_date < today %}
+
+                        <span class="badge bg-danger">
+                            OVERDUE
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-warning text-dark">
+                            Issued
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <!-- Fine -->
+                <td>
+
+                    {% if issue.fine > 0 %}
+
+                        <span class="badge bg-danger">
+                            ₹ {{ issue.fine }}
+                        </span>
+
+                    {% else %}
+
+                        <span class="badge bg-success">
+                            ₹ 0
+                        </span>
+
+                    {% endif %}
+
+                </td>
+
+                <!-- Action -->
+                <td>
+
+                    {% if not issue.returned %}
+
+                        <a href="{% url 'return_book' issue.id %}"
+                           class="btn btn-primary btn-sm">
+                            <i class="fas fa-undo"></i> Return
+                        </a>
+
+                    {% else %}
+
+                        <button class="btn btn-success btn-sm" disabled>
+                            <i class="fas fa-check"></i> Returned
+                        </button>
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+
+                <td colspan="7" class="text-center">
+                    No issued books found.
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

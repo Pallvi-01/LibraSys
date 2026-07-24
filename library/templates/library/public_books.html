@@ -1,0 +1,62 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4 text-center">📚 Library Book Catalog</h2>
+    <form method="GET" class="mb-4">
+    <div class="input-group">
+        <input type="text"
+               name="search"
+               class="form-control"
+               placeholder="Search books..."
+               value="{{ request.GET.search }}">
+
+        <button class="btn btn-primary">
+            <i class="fas fa-search"></i> Search
+        </button>
+    </div>
+</form>
+
+    <div class="row">
+
+        {% for book in books %}
+
+        <div class="col-md-3 mb-4">
+
+            <div class="card h-100 shadow">
+
+                {% if book.cover %}
+                    <img src="{{ book.cover.url }}" class="card-img-top" height="250">
+                {% endif %}
+
+                <div class="card-body">
+
+                    <h5>{{ book.title }}</h5>
+
+                    <p><b>Author:</b> {{ book.author }}</p>
+
+                    <p><b>Category:</b> {{ book.category }}</p>
+
+                    <span class="badge bg-success">
+                        Available : {{ book.available }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <h4 class="text-center">No Books Available</h4>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
