@@ -7,6 +7,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from openpyxl import Workbook
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth import authenticate, login
 
 
 @login_required
@@ -346,3 +347,22 @@ def public_books(request):
     return render(request, "library/public_books.html", {
         "books": books
     })
+
+    def user_login(request):
+
+    if request.method == "POST":
+
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(
+            request,
+            username=username,
+            password=password
+        )
+
+        if user is not None:
+            login(request, user)
+            return redirect("dashboard")
+
+    return render(request, "library/login.html")
