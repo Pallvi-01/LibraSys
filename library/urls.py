@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
 
     # Admin Dashboard
-    path('', views.dashboard, name='dashboard'),
+    path('', views.public_books, name='home'),
 
     # Login
     path('login/', views.user_login, name='login'),
