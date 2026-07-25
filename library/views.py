@@ -348,7 +348,8 @@ def public_books(request):
         "books": books
     })
 
-    def user_login(request):
+
+def user_login(request):
 
     if request.method == "POST":
 
