@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>LibraSys - Smart Library Management System</title>
 
     <!-- Bootstrap -->
@@ -11,129 +12,273 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <style>
-        body{
-            margin:0;
-            background:#f4f6f9;
-            font-family:Arial, Helvetica, sans-serif;
-        }
 
-        .sidebar{
-            width:250px;
-            height:100vh;
-            position:fixed;
-            background:#212529;
-            color:white;
-            padding-top:20px;
-        }
+<style>
 
-        .sidebar h3{
-            text-align:center;
-            margin-bottom:30px;
-            font-weight:bold;
-        }
+body{
+    margin:0;
+    background:#f4f6f9;
+    font-family:Arial, Helvetica, sans-serif;
+}
 
-        .sidebar a{
-            display:block;
-            color:white;
-            text-decoration:none;
-            padding:15px 25px;
-            transition:.3s;
-        }
 
-        .sidebar a:hover{
-            background:#0d6efd;
-        }
+/* SIDEBAR */
 
-        .content{
-            margin-left:250px;
-            padding:30px;
-        }
+.sidebar{
 
-        .card{
-            border:none;
-            border-radius:12px;
-            box-shadow:0 0 10px rgba(0,0,0,.1);
-        }
+    width:250px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
 
-        .sidebar a.active,
-        .sidebar a:hover{
-            background:#0d6efd;
-            border-radius:8px;
-            margin:5px;
-            transition:0.3s;
-        }
+    background:#212529;
+    color:white;
 
-        .card{
-            transition:0.3s;
-        }
+    padding-top:20px;
 
-        .btn{
-            border-radius:8px;
-        }
+    overflow-y:auto;
+}
 
-        .table{
-            border-radius:10px;
-            overflow:hidden;
-        }
-    </style>
+
+.sidebar h3{
+
+    text-align:center;
+    margin-bottom:30px;
+    font-weight:bold;
+
+}
+
+
+.sidebar a{
+
+    display:block;
+    color:white;
+    text-decoration:none;
+
+    padding:15px 25px;
+
+    transition:.3s;
+
+}
+
+
+.sidebar a:hover{
+
+    background:#0d6efd;
+    border-radius:8px;
+    margin:5px;
+
+}
+
+
+
+/* MAIN CONTENT */
+
+.content{
+
+    margin-left:250px;
+    padding:30px;
+
+}
+
+
+
+/* CARDS */
+
+.card{
+
+    border:none;
+    border-radius:12px;
+
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+
+    transition:.3s;
+
+}
+
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+
+.btn{
+
+    border-radius:8px;
+
+}
+
+
+.table{
+
+    border-radius:10px;
+    overflow:hidden;
+
+}
+
+
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width:768px){
+
+
+    .sidebar{
+
+        width:100%;
+        height:auto;
+
+        position:relative;
+
+        padding-bottom:10px;
+
+    }
+
+
+    .sidebar h3{
+
+        margin-bottom:15px;
+
+    }
+
+
+    .sidebar a{
+
+        padding:12px 20px;
+
+    }
+
+
+    .content{
+
+        margin-left:0;
+
+        padding:15px;
+
+    }
+
+
+}
+
+
+
+/* SMALL MOBILE */
+
+@media(max-width:480px){
+
+
+    .sidebar a{
+
+        font-size:14px;
+
+    }
+
+
+    .content{
+
+        padding:10px;
+
+    }
+
+
+}
+
+
+
+</style>
+
 
 </head>
 
+
 <body>
+
 
 <div class="sidebar">
 
-    <h3>📚 LibraSys</h3>
 
-    <a href="{% url 'home' %}">
-        <i class="fas fa-home"></i> Dashboard
-    </a>
+<h3>📚 LibraSys</h3>
 
-    <a href="{% url 'book_list' %}">
-        <i class="fas fa-book"></i> Books
-    </a>
 
-    <a href="{% url 'public_books' %}">
+<a href="{% url 'home' %}">
+    <i class="fas fa-home"></i> Dashboard
+</a>
+
+
+<a href="{% url 'book_list' %}">
+    <i class="fas fa-book"></i> Books
+</a>
+
+
+<a href="{% url 'public_books' %}">
     <i class="fas fa-book-open"></i> Book Catalog
-    </a>
+</a>
 
-    <a href="{% url 'student_list' %}">
-        <i class="fas fa-user-graduate"></i> Students
-    </a>
 
-    <a href="{% url 'issue_list' %}">
-        <i class="fas fa-book-reader"></i> Issue Books
-    </a>
+<a href="{% url 'student_list' %}">
+    <i class="fas fa-user-graduate"></i> Students
+</a>
 
-    <a href="/admin/">
-        <i class="fas fa-user-shield"></i> Admin Panel
-    </a>
 
-    <a href="/admin/logout/">
-        <i class="fas fa-sign-out-alt"></i> Logout
-    </a>
+<a href="{% url 'issue_list' %}">
+    <i class="fas fa-book-reader"></i> Issue Books
+</a>
+
+
+<a href="/admin/">
+    <i class="fas fa-user-shield"></i> Admin Panel
+</a>
+
+
+<a href="/admin/logout/">
+    <i class="fas fa-sign-out-alt"></i> Logout
+</a>
+
 
 </div>
+
+
 
 <div class="content">
 
-    {% block content %}
-    {% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
 
 </div>
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 <script>
+
 document.querySelectorAll(".card").forEach(function(card){
+
     card.addEventListener("mouseover", function(){
-        card.style.transform = "translateY(-5px)";
-        card.style.transition = "0.3s";
+
+        card.style.transform="translateY(-5px)";
+
     });
 
+
     card.addEventListener("mouseout", function(){
-        card.style.transform = "translateY(0)";
+
+        card.style.transform="translateY(0)";
+
     });
+
+
 });
+
 </script>
+
+
 </body>
 </html>

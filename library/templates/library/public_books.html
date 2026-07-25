@@ -23,12 +23,12 @@
 
         {% for book in books %}
 
-        <div class="col-md-3 mb-4">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
 
             <div class="card h-100 shadow">
 
                 {% if book.cover %}
-                    <img src="{{ book.cover.url }}" class="card-img-top" height="250">
+                    <img src="{{ book.cover.url }}" class="card-img-top img-fluid" style="height:250px; object-fit:cover;">
                 {% endif %}
 
                 <div class="card-body">
