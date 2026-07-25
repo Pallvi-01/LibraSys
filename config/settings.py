@@ -13,9 +13,9 @@ SECRET_KEY = 'django-insecure-*wu@sv!!2zu%76e06%&-@19r6ajc0a4y3bq^plp1xww)lmsuj3
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "pallvi.pythonanywhere.com",
-    "127.0.0.1",
-    "localhost",
+    'librasys-9tw4.onrender.com',
+    '127.0.0.1',
+    'localhost'
 ]
 
 INSTALLED_APPS = [
