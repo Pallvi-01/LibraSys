@@ -2,16 +2,14 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+
     path('', views.dashboard, name='dashboard'),
+
     path('login/', views.user_login, name='login'),
-    path('books/', views.book_list, name='book_list'),
-]    
-
-    # Book Management
 
     # Book Management
     path('books/', views.book_list, name='book_list'),
-    path("catalog/", views.public_books, name="public_books"),
+    path('catalog/', views.public_books, name='public_books'),
     path('books/add/', views.add_book, name='add_book'),
     path('books/pdf/', views.books_pdf, name='books_pdf'),
     path('books/excel/', views.books_excel, name='books_excel'),
