@@ -8,6 +8,7 @@ from reportlab.lib.units import inch
 from openpyxl import Workbook
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth import authenticate, login
+from .models import Book, Student, IssueBook, BookRequest
 
 
 @login_required
@@ -367,3 +368,22 @@ def user_login(request):
             return redirect("dashboard")
 
     return render(request, "library/login.html")
+
+def book_request(request, book_id):
+
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == "POST":
+
+        BookRequest.objects.create(
+            book=book,
+            name=request.POST["name"],
+            mobile=request.POST["mobile"],
+            email=request.POST["email"]
+        )
+
+        return redirect("public_books")
+
+    return render(request, "library/book_request.html", {
+        "book": book
+    })

@@ -3,27 +3,37 @@ from . import views
 
 urlpatterns = [
 
+    # Admin Dashboard
     path('', views.dashboard, name='dashboard'),
 
+    # Login
     path('login/', views.user_login, name='login'),
 
-    # Book Management
-    path('books/', views.book_list, name='book_list'),
+
+    # Public User Books
     path('catalog/', views.public_books, name='public_books'),
+    path('request-book/<int:book_id>/', views.book_request, name='book_request'),
+
+
+    # Admin Book Management
+    path('books/', views.book_list, name='book_list'),
     path('books/add/', views.add_book, name='add_book'),
     path('books/pdf/', views.books_pdf, name='books_pdf'),
     path('books/excel/', views.books_excel, name='books_excel'),
     path('books/edit/<int:book_id>/', views.edit_book, name='edit_book'),
     path('books/delete/<int:book_id>/', views.delete_book, name='delete_book'),
 
-    # Student Management
+
+    # Admin Student Management
     path('students/', views.student_list, name='student_list'),
     path('students/add/', views.add_student, name='add_student'),
     path('students/edit/<int:student_id>/', views.edit_student, name='edit_student'),
     path('students/delete/<int:student_id>/', views.delete_student, name='delete_student'),
 
-    # Issue Book
+
+    # Admin Issue Management
     path('issue/', views.issue_list, name='issue_list'),
     path('issue/add/', views.add_issue, name='add_issue'),
     path('issue/return/<int:issue_id>/', views.return_book, name='return_book'),
+
 ]

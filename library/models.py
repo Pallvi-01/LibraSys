@@ -45,3 +45,28 @@ class IssueBook(models.Model):
 
     def __str__(self):
         return f"{self.book} - {self.student}"
+
+
+class BookRequest(models.Model):
+
+    book = models.ForeignKey(
+        Book,
+        on_delete=models.CASCADE
+    )
+
+    name = models.CharField(max_length=100)
+
+    mobile = models.CharField(max_length=15)
+
+    email = models.EmailField()
+
+    requested_on = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    approved = models.BooleanField(
+        default=False
+    )
+
+    def __str__(self):
+        return f"{self.name} - {self.book.title}"

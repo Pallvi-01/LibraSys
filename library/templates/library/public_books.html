@@ -42,6 +42,12 @@
                     <span class="badge bg-success">
                         Available : {{ book.available }}
                     </span>
+                    <br><br>
+
+                    <a href="{% url 'book_request' book.id %}" 
+                       class="btn btn-primary w-100">
+                        📖 Request Book
+                    </a>
 
                 </div>
 
